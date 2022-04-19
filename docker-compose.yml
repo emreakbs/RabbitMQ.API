@@ -1,0 +1,79 @@
+version: '3.4'
+
+services:
+  rabbitmq.api:
+    image: ${DOCKER_REGISTRY-}rabbitmqapi
+    build:
+      context: .
+      dockerfile: RabbitMQ.API/Dockerfile
+    environment:
+       ASPNETCORE_URLS: http://*:80/
+    ports:
+      - "18001:80"
+    depends_on:
+      - rabbitmq
+      - elasticsearch
+      - kibana
+  rabbitmq:
+    image: rabbitmq:3-management
+    volumes:
+        - rabbit-volume-etc:/etc/rabbitmq/
+        - rabbit-volume-data:/var/lib/rabbitmq/
+        - rabbit-volume-logs:/var/log/rabbitmq/
+    environment:
+        RABBITMQ_DEFAULT_USER: user
+        RABBITMQ_DEFAULT_PASS: password
+    ports:
+        - "18003:5672"
+        - "18004:15672"
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
+    environment:
+      - cluster.name=docker-cluster
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms256M -Xmx256M"
+      - http.cors.enabled=true
+      - http.cors.allow-origin=*
+      - network.host=0.0.0.0
+      - ELASTIC_USERNAME=elastic
+      - ELASTIC_PASSWORD=password
+    ulimits:
+      nproc: 65535
+      memlock:
+        soft: -1
+        hard: -1
+    cap_add:
+      - ALL
+    # privileged: true
+    volumes:
+      - elasticsearch-logs:/var/log:Z
+      - elasticsearch-data:/usr/share/elasticsearch/data:Z
+    ports:
+      - 18005:9200
+      - 18006:9300
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.2.0
+    restart: unless-stopped
+    environment:
+      SERVER_NAME: localhost
+      ELASTICSEARCH_URL: http://elasticsearch:9200/
+      ELASTICSEARCH_USERNAME: "elastic"
+      ELASTICSEARCH_PASSWORD: "password"
+    ports:
+      - 18007:5601
+    volumes:
+      - kibana-data:/var/log:Z
+    ulimits:
+      nproc: 65535
+      memlock:
+        soft: -1
+        hard: -1
+    cap_add:
+      - ALL
+volumes:
+  rabbit-volume-etc:
+  rabbit-volume-data:
+  rabbit-volume-logs:
+  elasticsearch-logs:
+  elasticsearch-data:
+  kibana-data:

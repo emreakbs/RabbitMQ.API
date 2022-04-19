@@ -1,0 +1,91 @@
+services:
+  elasticsearch:
+    cap_add:
+    - ALL
+    environment:
+      ELASTIC_PASSWORD: password
+      ELASTIC_USERNAME: elastic
+      ES_JAVA_OPTS: -Xms256M -Xmx256M
+      cluster.name: docker-cluster
+      discovery.type: single-node
+      http.cors.allow-origin: '*'
+      http.cors.enabled: "true"
+      network.host: 0.0.0.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
+    ports:
+    - published: 18005
+      target: 9200
+    - published: 18006
+      target: 9300
+    ulimits:
+      memlock:
+        hard: -1
+        soft: -1
+      nproc: 65535
+    volumes:
+    - elasticsearch-data:/usr/share/elasticsearch/data:Z
+    - elasticsearch-logs:/var/log:Z
+  kibana:
+    cap_add:
+    - ALL
+    environment:
+      ELASTICSEARCH_PASSWORD: password
+      ELASTICSEARCH_URL: http://elasticsearch:9200/
+      ELASTICSEARCH_USERNAME: elastic
+      SERVER_NAME: localhost
+    image: docker.elastic.co/kibana/kibana:7.2.0
+    ports:
+    - published: 18007
+      target: 5601
+    restart: unless-stopped
+    ulimits:
+      memlock:
+        hard: -1
+        soft: -1
+      nproc: 65535
+    volumes:
+    - kibana-data:/var/log:Z
+  rabbitmq:
+    environment:
+      RABBITMQ_DEFAULT_PASS: password
+      RABBITMQ_DEFAULT_USER: user
+    image: rabbitmq:3-management
+    ports:
+    - published: 18003
+      target: 5672
+    - published: 18004
+      target: 15672
+    volumes:
+    - rabbit-volume-etc:/etc/rabbitmq/:rw
+    - rabbit-volume-data:/var/lib/rabbitmq/:rw
+    - rabbit-volume-logs:/var/log/rabbitmq/:rw
+  rabbitmq.api:
+    build:
+      context: C:\Users\emre.akbas\Desktop\RabbitMQ.API
+      dockerfile: RabbitMQ.API/Dockerfile
+    depends_on:
+      elasticsearch:
+        condition: service_started
+      kibana:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:80
+    image: rabbitmqapi
+    ports:
+    - published: 18001
+      target: 80
+    - target: 80
+    volumes:
+    - C:\Users\emre.akbas\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\emre.akbas\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+version: '3.4'
+volumes:
+  elasticsearch-data: {}
+  elasticsearch-logs: {}
+  kibana-data: {}
+  rabbit-volume-data: {}
+  rabbit-volume-etc: {}
+  rabbit-volume-logs: {}

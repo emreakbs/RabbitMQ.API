@@ -1,0 +1,15 @@
+C:\Users\emre.akbas\Desktop\Github\RabbitMQ.API\RabbitMQ.Consumer\obj\Debug\net6.0\RabbitMQ.Consumer.csproj.AssemblyReference.cache
+C:\Users\emre.akbas\Desktop\Github\RabbitMQ.API\RabbitMQ.Consumer\obj\Debug\net6.0\RabbitMQ.Consumer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\emre.akbas\Desktop\Github\RabbitMQ.API\RabbitMQ.Consumer\obj\Debug\net6.0\RabbitMQ.Consumer.AssemblyInfoInputs.cache
+C:\Users\emre.akbas\Desktop\Github\RabbitMQ.API\RabbitMQ.Consumer\obj\Debug\net6.0\RabbitMQ.Consumer.AssemblyInfo.cs
+C:\Users\emre.akbas\Desktop\Github\RabbitMQ.API\RabbitMQ.Consumer\obj\Debug\net6.0\RabbitMQ.Consumer.csproj.CoreCompileInputs.cache
+C:\Users\emre.akbas\Desktop\Github\RabbitMQ.API\RabbitMQ.Consumer\bin\Debug\net6.0\RabbitMQ.Consumer.deps.json
+C:\Users\emre.akbas\Desktop\Github\RabbitMQ.API\RabbitMQ.Consumer\bin\Debug\net6.0\RabbitMQ.Consumer.dll
+C:\Users\emre.akbas\Desktop\Github\RabbitMQ.API\RabbitMQ.Consumer\bin\Debug\net6.0\RabbitMQ.Consumer.pdb
+C:\Users\emre.akbas\Desktop\Github\RabbitMQ.API\RabbitMQ.Consumer\bin\Debug\net6.0\RabbitMQ.Utils.dll
+C:\Users\emre.akbas\Desktop\Github\RabbitMQ.API\RabbitMQ.Consumer\bin\Debug\net6.0\RabbitMQ.Utils.pdb
+C:\Users\emre.akbas\Desktop\Github\RabbitMQ.API\RabbitMQ.Consumer\obj\Debug\net6.0\RabbitMQ.Consumer.csproj.CopyComplete
+C:\Users\emre.akbas\Desktop\Github\RabbitMQ.API\RabbitMQ.Consumer\obj\Debug\net6.0\RabbitMQ.Consumer.dll
+C:\Users\emre.akbas\Desktop\Github\RabbitMQ.API\RabbitMQ.Consumer\obj\Debug\net6.0\refint\RabbitMQ.Consumer.dll
+C:\Users\emre.akbas\Desktop\Github\RabbitMQ.API\RabbitMQ.Consumer\obj\Debug\net6.0\RabbitMQ.Consumer.pdb
+C:\Users\emre.akbas\Desktop\Github\RabbitMQ.API\RabbitMQ.Consumer\obj\Debug\net6.0\ref\RabbitMQ.Consumer.dll

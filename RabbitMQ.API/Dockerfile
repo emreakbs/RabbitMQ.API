@@ -1,0 +1,26 @@
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /src
+COPY ["RabbitMQ.API/RabbitMQ.API.csproj", "RabbitMQ.API/"]
+COPY ["RabbitMQ.Utils/RabbitMQ.Utils.csproj", "RabbitMQ.Utils/"]
+COPY ["RabbitMQ.Manager/RabbitMQ.Manager.csproj", "RabbitMQ.Manager/"]
+COPY ["RabbitMQ.Producer/RabbitMQ.Producer.csproj", "RabbitMQ.Producer/"]
+COPY ["RabbitMQ.Consumer/RabbitMQ.Consumer.csproj", "RabbitMQ.Consumer/"]
+RUN dotnet restore "RabbitMQ.API/RabbitMQ.API.csproj"
+COPY . .
+WORKDIR "/src/RabbitMQ.API"
+RUN dotnet build "RabbitMQ.API.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "RabbitMQ.API.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "RabbitMQ.API.dll"]
